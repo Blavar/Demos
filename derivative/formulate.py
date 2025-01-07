@@ -87,9 +87,6 @@ def capsule( tokens:list ):
     return caps
 
 
-
-
-
 def token_node( token:str ):
 
     node = Node()
@@ -203,10 +200,3 @@ def build( tokens:list ):
 def formulate( buf:str ):
     return build( capsule( parse(buf) ) )
 
-
-
-# buf = 'D(sin(x)) + sin(x+[y:const])'
-
-# caps = capsule( parse( buf ) )
-
-# print(build( caps ))

@@ -8,9 +8,7 @@ MLU especially is a wonderful thing.
 My implementation doesn't exactly differ fromt he abovementioned resources due to the straightforwardness of the thing.
 Which is why my friend was really adamant in accusing me of copy/pasting. Yes I am still salty.
 
-If only he knew how lackluster the structure of the Model class is, despite having a perfectly fine example of it in front of me.
-
-Anyway, you can add points by clicking. Noice.
+You can add points by clicking.
 '''
 
 

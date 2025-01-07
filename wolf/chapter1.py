@@ -11,8 +11,8 @@ especially problematic to me. Even worse - the pdf with solutions didn't include
 So, I don't even have a concrete answer which would guide the reasoning process. 
 If I could only get a rough estimate for the answer, by putting a ridicolous amount of work into this 3 line problem...
 
-In fact, to make it even more fun (*starts sobbing*), let's solve a slightly more general problem: finding the probability in question
-for all even number of point = N.
+In fact, to make it even more fun, let's solve a slightly more general problem: finding the probability in question
+for all even number of points = N.
 Here's the strategy:
     (1) write a function generating test cases for given N
     (2) for given N, generate M test cases, count number S of succesful cases
@@ -24,20 +24,12 @@ Here's the strategy:
         Hence, fit the function to the data using regression
     (7) ???
     (8) profit
-
-#include k smth sampling
     
-This file discusses step (1)
-Writing a test generator proved to be trickier than I'm at liberty to admit. So tricky in fact that I had to enchance it with some visualization
-for the sole purpose of debugging. I'm not proud of it. No one should.
 
-Anyway, thing is pretty straightforward (post factum). Wolf starts at position 0. His current position is shown with a red circle.
-An alive sheep is a white circle, an eaten one a black one.
+This file visualizes step (1). I wanted to actually see if the generator does what it's supposed to.
+
 If the wolf eats the opposite sheep (index N/2) last, the test is succesful, returning True. Otherwise, it is False.
 Result of each case is logged in the terminal.
-
-The simulation runs at a whopping 10 fps. It generates test cases indefinitely, so whenever You feel like You couldn't possibly
-experience any more excitement, feel free to close the window. Or don't. 
 
 Also, feel free to tweak to the N right below. I know it'll take You no time to break the whole thing.
 Might as well just accept it.

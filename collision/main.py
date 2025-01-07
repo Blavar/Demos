@@ -1,27 +1,11 @@
 '''
-A little axis-aligned rectangle collsion and resolution simulation I put together around Halloween.
-I'm putting it in here mainly because the code is so gruesome that it's actually funny.
-It was another case of 'I wanna get some results fast so I'll do the most horrific implementation
-known to man, despite the fact that were I to take some time to do it neatly, the overall
-implementation time would be shorter AND the thing would work better'
-
-Funny thing: the squares used to go through one another quite frequently (i think). I didn't really
-know what the issue could be so I asked Google Gemini. It suggested lowering the time interval for the
-simulation ticks. Lo-and-behold it actually worked. Beaten by a machine.
-
-The algorithm is really better explained (and visually too) here:
+Axis-aligned rectangle collision detection and resolution algorithm visualization.
+[Flex] I NEARLY got it right myself, but ultimately had to resolve to getting help from here:
 https://www.youtube.com/watch?v=8JJ-4JgR7Dg
 
-I was actually pretty close to getting it myself, still, the explanation in the video
-proved to be invaluable. It'd probably take me a loooong time without it.
-
-
-SIDENOTE: informative sources on axis-aligned rectangular (or square rather) collision resolution
-were surprisingly sparse. Google either flooded me with the algorithm for the static case,
-or provided me with posts from some arcane forums talking about matrices of differential equations.
-Google was VASTLY overestimating me with the second class.
-
+Keep in mind this code is relatively old and hence gruesome. I decided to put it up here nonetheless.
 '''
+
 
 import pygame.freetype
 from vector import Vector
@@ -73,38 +57,7 @@ def DrawLine(display, color, p: Vector, q: Vector):
 def DrawRect(display, color, rect:Rect):
     pygame.draw.rect( display, color, rect.to_tuple(), 2 )
 
-##########################
 
-##########################
-    # MARGIN = 0.1
-    # if v.x != 0:
-    #     near.x = (rect.pos.x - p.x) / v.x
-    #     far.x  = (rect.pos.x + rect.size.x - p.x) / v.x
-    # else:
-    #     if p.x >= rect.pos.x and p.x <= (rect.pos.x + rect.size.x):
-    #         near.x = p.x
-    #         far.x  = p.x
-    #     else:
-    #         return False
-    
-    # if v.y != 0:
-    #     near.y = (rect.pos.y - p.y) / v.y
-    #     far.y  = (rect.pos.y + rect.size.y - p.y) / v.y
-    # else:
-    #     if p.y >= rect.pos.y and p.y <= (rect.pos.y + rect.size.y):
-    #         near.y = p.y
-    #         far.y  = p.y
-    #     else:
-    #         return False
-
-# v.x!= 0
-# near, far
-# else
-#
-#
-#
-#
-#
 import pygame
 pygame.init()
 
@@ -174,7 +127,6 @@ def ray_rect(p, v, rect: Rect):
 
     if not( near.x <= far.y and near.y <= far.x):
         return None
-    #print( f'p: {p.x}, {p.y}\nv: {v.x}, {v.y}\nnear: {near.x}, {near.y}\nfar: {far.x}, {far.y}' )
 
     if near.x >= near.y:
         t = near.x
@@ -197,13 +149,8 @@ def ray_rect(p, v, rect: Rect):
 
 
 
-#make it a function of two moving objects?
+
 def rect_rect(A: Rect, B: Rect):
-
-
-    #draw_v(A)
-    #draw_v(B)
-
 
     rect_dummy = Rect( B.pos.x - A.size.x/2, B.pos.y - A.size.y/2, B.size.x + A.size.x, B.size.y + A.size.y)
 
@@ -213,17 +160,6 @@ def rect_rect(A: Rect, B: Rect):
     return ray_rect( A.center(), A.v-B.v, rect_dummy )
 
     
-
-
-
-#automatize according to a 
-class Color:
-    def __init__(self):
-        Color.red = '#FF0000'
-        Color.blue = '#0000FF'
-        Color.white = '#FFFFFF'
-        Color.gray = '#666666'
-
 ###########################
 
 
@@ -231,13 +167,7 @@ class Color:
 font = pygame.font.Font("Helvetica.ttf", 20)
 
 clock = pygame.time.Clock()
-# 
-# UL = Vector(0,0)
-# BR = Vector( win_sz.x, win_sz.y )
-# mouse_tail = BR
-# mouse_pos = Vector(0, 0)
-# rect = Rect(100,100,100,100)
-# 
+
 black = "#000000"
 white = "#FFFFFF"
 red   = "#FF0000"
@@ -268,12 +198,6 @@ walls = [Rect(0, 0, win_sz.x, 0), Rect(0,0,win_sz.y,0), Rect(win_sz.x,0,0,win_sz
 
 Jigs = [gen_rect() for i in range(30)]
 
-#Jigs = [Rect(0,0,100,100, Vector( 0,5 )), Rect(0,500,100,100, Vector(0,-5))]
-
-##########################
-
-
-
 ###########################
 
 run = True
@@ -298,17 +222,6 @@ while run:
                 pause = not pause
     
 
-    
-
-        # elif e.type == pygame.MOUSEMOTION:
-        #     x, y = pygame.mouse.get_pos()
-        #     A.pos.x = x
-        #     A.pos.y = y
-
-
-    #drawing
-
-    #ENGINE
     if not pause:
 
         display.fill(black)
@@ -330,8 +243,6 @@ while run:
 
                     jig.pos += jig.v * collision.t * (dt*0.99)
                     jig2.pos += jig2.v * collision.t * (dt*0.99)
-                    #print(f"COLLISION i:{i} j:{j}")
-                    #print(collision.norm)
                     
                     norm = collision.norm
 
@@ -339,18 +250,6 @@ while run:
                         jig.v.x, jig2.v.x = jig2.v.x, jig.v.x
                     elif norm.y != 0:
                         jig.v.y, jig2.v.y = jig2.v.y, jig.v.y
-                    # if norm.x != 0:
-                    #     if jig.v.x * norm.x < 0:
-                    #         jig.v.x *= -1
-                    #     if jig2.v.x * norm.x > 0:
-                    #         jig2.v.x *= -1
-                    # elif norm.y != 0:
-                    #     if jig.v.y * norm.y < 0:
-                    #         jig.v.y *= -1
-                    #     if jig2.v.y * norm.y > 0:
-                    #         jig2.v.y *= -1
-
-
 
                     jig.pos += -jig.v*(1-collision.t)
                     jig2.pos += -jig2.v*(1-collision.t)
@@ -371,8 +270,6 @@ while run:
 
             jig.pos += jig.v
             
-        #draw the velocity vector for A
-
 
         for i, jig in enumerate(Jigs):
 
@@ -381,17 +278,5 @@ while run:
             display.blit( text, jig.pos.to_pair() )
 
 
-        ##############################
-
-
-        # rect_col = gray
-        # collision = ray_rect( mouse_tail, mouse_pos, rect )
-        # if collision:
-        #     rect_col = red
-        #     print( collision.norm )
-
-        # #draw a line
-        # DrawLine(display, white, mouse_tail, mouse_pos)
-        # DrawRect(display, rect_col, rect)
         pygame.display.update()
 

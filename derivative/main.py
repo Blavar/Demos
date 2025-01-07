@@ -2,12 +2,12 @@
 Oh my...
 It's a working project
 
-Basci idea is pretty simple. I wanted the program to differentiate a given formula, and I wanted to write the differentiation
+Basic idea is pretty simple. I wanted the program to differentiate a given formula, and I wanted to write the differentiation
 rules as strings for the program to interpret. So pretty much a goal tree.
 The general idea for the goal tree I owe to this lecture:
 https://www.youtube.com/watch?v=TjZBTDzGeGg&list=PLUl4u3cNGP63gFHB6xb-kVBiQHYe_4hSi&index=1
 
-Okay then. First things first, this required the program to parse the input (parser.py)
+First things first, this required the program to parse the input (parser.py)
 then from the tokens build a tree-structure of the formula (formulate.py). Nodes can be either functions, operators, constants or variables.
 Operator and function nodes can have children - nodes representing arguments, which in turn can have their children, and so on, and so on *sniff*
 
@@ -22,21 +22,14 @@ So, the big components needed are:
 (2) getting a symtab
 (3) substituting according to the symtab
 
-Current implementation is VERY chaotic and ugly. It's purpose was to get some first results on specific cases, which it did.
-Given that I pretty much build a mini-interpreted in the span of 8, 8-12h days, I'm pretty happy.
 
-It needs improvement though. The obvious one is to wrap formula tree nodes into their separate types, which then have a pointer to
-a 'content' node, which can be an actual variable, consatnt, function symbol, operator, or arguments node. This also opens
-the door for a very useful distinction between 'formulaic' variables (they stand for formulas), and 'content' variables.
-Currently, the algorithm distiguishes (if at all) between complex and atomic formulas by looking at the node type, as in,
-if it's a fucntion or an operator, then treat it as complex. And it raises a lot of issues and confusion. 
+In current form it works in specific cases.
+Future versions ought to implement a formula class, which reperesents nodes in the formula, which in turn can be complex, or atomic.
+Each fromula then will have a pointer to a 'content' node, which can be a concrete function symbol, operator, variable, or numerical value.
 
-For now though, i cannot possibly look at this code anymore. I'm off to build a logic expressions interpeter.
-
-
-
-SIDENOTE: I took the liberty of leaving the more lateral comments in order to show the degree of mental degradation
+Right now the program doesn't make this crucial distictions, which caused be a bit of headache.
 '''
+
 
 
 from common import *
@@ -83,9 +76,6 @@ def compare( a, b ):
 
 
 
-#derivation may just fucking decorate the builder 
-
-#SYMTAB SHOULD BE A FUCKING DATA STRUCTURE
 #if symtabs are compatible merge them, if there's a conflict or some key in anacounted for, return None
 def merge_symtabs( symtabs ):
 
@@ -111,48 +101,12 @@ def merge_symtabs( symtabs ):
     return res
 
 
-'''
-comparing to a schema
-
-if schema has an operator, form has to be the same, children must be the same
-if schema is a function 
-
-if form is a var, schema has to be a var
-
-if schema is var, anything goes
-D(f(g)),x)
-if shcema is var
-
-if shcema is func -> if named, must match label, if not, can be an operator or func
-if has children
-
-named funct -> has children
-
-named func or opp -> 
-
-form has children -> 
-
-type opp, matching opp or unnamed function with children - operator check
-
-
-'''
-
-
 
 #try to build a mapping between a formula and a schema
 #if something doesn't match, or if there's a conflict, return None
 def mapping_builder( form, schema, symtab ):
-    '''
-    if schema has no children
-        map, given types match
-    if it has children
-        if func variable - map it into the name
-        map children into smth
 
-    then in substitution make sure 
-    
-    
-    '''
+
     if not schema.children:
 
         if schema.type == 'var' or ( schema.type == form.type ):
@@ -163,10 +117,6 @@ def mapping_builder( form, schema, symtab ):
                     symtab = None
         
     elif schema.children and len( schema.children ) == len( form.children ):
-
-        '''
-        if not name function, first insert it into dictionary to check everything matches
-        '''
 
         if (schema.type == 'func' and not schema.val in functions and (form.type == 'func' or form.type == 'operator')):
             if not symtab[schema.val]:
@@ -231,9 +181,6 @@ def build_mapping( form, schema ):
 #given a formula and a dictionary, substitute into it
 #creates side effects mind you
 def substitute( schema, symtab ):
-    #if schema is a funct name substitute JUST THE NAME
-    #recursive
-    #if children, if not
 
     if not schema.children:
         return symtab[ schema.val ]
@@ -297,7 +244,7 @@ def rand_label(  ):
     return res
 
 
-#well, derivate
+
 def derivative( form ):
 
     res = form

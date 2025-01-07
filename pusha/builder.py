@@ -1,3 +1,12 @@
+'''
+Given a dataframe and a target column, Splitter produces the best attribute to split on
+calculating the maximal entropy gain among splits on attributes.
+
+Recursive function builder() takes a dataframe, and returns a root of the decision tree.
+
+'''
+
+
 import pandas as pd
 from pandas.api.types import is_numeric_dtype
 from pandas.api.types import is_string_dtype
@@ -154,7 +163,7 @@ class Splitter:
 # # # # # # # # # # # # # # # # # # # # 
 
 
-#Prolly hierarchical overkill but oh well
+
 #Nodes of the decision tree
 class Node:
     def __init__(self, split:Split, parent=None):

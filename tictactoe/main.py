@@ -1,4 +1,14 @@
-#state format A[N][N]
+'''
+An implmentation of a minimax algorithm applied to tictactoe, as inspired by:
+https://www.youtube.com/watch?v=5NgNicANyqM (1:14:34)
+
+The only twist here is a function calculating score for each player,
+which takes the line which are still valid (as in, only one player has marks there),
+takes the difference of valid lines with n marks for the player and valid line with n marks for the opponent,
+with n = 3,2,1
+v = ( 3-lines, 2-lines, 1-lines )
+
+'''
 
 N     = None
 lines = None
@@ -264,18 +274,6 @@ def predict(state):
 
 N = 3
 lines = do_lines()
-
-'''
-XX.
-.OX
-OOX
-
-'''
-"""
-state = to_state('.O.'+
-                 '.X.'+
-                 'XOX')
-"""
 
 print( gt( [-1, 3, 0], [2, 0, 0] ) )
 

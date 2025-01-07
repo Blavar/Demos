@@ -1,10 +1,6 @@
-'''
-parser
-includes [ ] :
-'''
-
 from common import *
 
+#parse the input string 
 class Parser:
     def __init__(self, buf:str):
         self.buf = buf
@@ -69,5 +65,6 @@ class Parser:
     def tokens(self):
         return self.res
 
+#entry function that returns tokens
 def parse( buf ):
     return Parser( buf ).tokens()

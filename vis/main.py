@@ -11,8 +11,6 @@ You'll also notice that the above paragraph is demonstrably lying, because in th
 (1) a tree generating class is generating Elems from the get go, not Nodes,
 (2) because of (1), Elems inherit from Node and invoke its' constructor
 
-I couldn't be bothered right now though. By the time of You, Dear Reader, reading this, I got neural networks to train
-
 '''
 
 import pygame
